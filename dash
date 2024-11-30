@@ -1,0 +1,8 @@
+paid-dashboard/
+├── package.json
+├── next.config.js
+├── tsconfig.json
+├── README.md
+└── src/
+    └── pages/
+        └── index.tsx
