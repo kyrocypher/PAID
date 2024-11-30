@@ -1,0 +1,9 @@
+# Initialize git repository
+git init
+git add .
+git commit -m "Initial commit"
+
+# Create a new repository on GitHub and push your code
+git remote add origin https://github.com/yourusername/paid-dashboard.git
+git branch -M main
+git push -u origin main
