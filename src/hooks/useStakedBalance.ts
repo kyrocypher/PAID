@@ -1,34 +1,14 @@
-import { useState, useEffect } from 'react'
-import { useAccount, useContractRead } from 'wagmi'
+import { useContractRead } from 'wagmi'
 import { CONTRACT_ADDRESS } from '@/config/constants'
+import { ABI } from '@/config/abi'
 
-const ABI = [
-  {
-    inputs: [{ name: 'account', type: 'address' }],
-    name: 'stakedBalance',
-    outputs: [{ name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
-
-export function useStakedBalance() {
-  const { address } = useAccount()
-  const [stakedBalance, setStakedBalance] = useState('0')
-
+export function useStakedBalance(address: string | undefined) {
   const { data } = useContractRead({
-    address: CONTRACT_ADDRESS,
+    address: CONTRACT_ADDRESS as `0x${string}`, // Type assertion here
     abi: ABI,
     functionName: 'stakedBalance',
     args: [address],
-    watch: true,
   })
 
-  useEffect(() => {
-    if (data) {
-      setStakedBalance(data.toString())
-    }
-  }, [data])
-
-  return { stakedBalance }
+  return data
 }
