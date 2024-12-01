@@ -1,11 +1,14 @@
 import { WagmiConfig } from 'wagmi'
-import { config } from '@/config/web3'
-import { ReactNode } from 'react'
+import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
+import { config, chains } from '@/config/web3'
+import '@rainbow-me/rainbowkit/styles.css'
 
-interface Web3ProviderProps {
-  children: ReactNode
-}
-
-export default function Web3Provider({ children }: Web3ProviderProps) {
-  return <WagmiConfig config={config}>{children}</WagmiConfig>
+export default function Web3Provider({ children }: { children: React.ReactNode }) {
+  return (
+    <WagmiConfig config={config}>
+      <RainbowKitProvider chains={chains} theme={darkTheme()}>
+        {children}
+      </RainbowKitProvider>
+    </WagmiConfig>
+  )
 }
