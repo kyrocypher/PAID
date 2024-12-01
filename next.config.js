@@ -19,3 +19,7 @@ const nextConfig = {
       os: false
     }
     return config
+  },
+}
+
+module.exports = nextConfig
