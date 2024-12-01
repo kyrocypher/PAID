@@ -1,5 +1,3 @@
-1. Update `src/config/web3.ts`:
-```typescript:src/config/web3.ts
 import { configureChains, createConfig } from 'wagmi'
 import { mainnet, polygon } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
@@ -22,8 +20,8 @@ export const config = createConfig({
         metadata: {
           name: 'PAID Dashboard',
           description: 'PAID Web3 Dashboard',
-          url: 'https://your-website.com', // Update this
-          icons: ['https://your-logo.com'], // Update this
+          url: typeof window !== 'undefined' ? window.location.origin : '',
+          icons: [],
         },
       },
     }),
@@ -31,4 +29,3 @@ export const config = createConfig({
   publicClient,
   webSocketPublicClient,
 })
-```
