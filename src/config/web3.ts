@@ -23,6 +23,3 @@ export const config = createConfig({
   publicClient,
   webSocketPublicClient,
 })
-  publicClient,
-  webSocketPublicClient,
-})
