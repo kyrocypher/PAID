@@ -3,48 +3,40 @@ import { useAccount } from 'wagmi'
 import { useStakedBalance } from '@/hooks/useStakedBalance'
 
 export default function Trends() {
-  const { isConnected } = useAccount()
-  const { stakedBalance } = useStakedBalance()
+  const { address, isConnected } = useAccount()
+  const balance = useStakedBalance(address)  // useStakedBalance returns bigint | undefined
   const [activeTab, setActiveTab] = useState('public')
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Market Trends</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Trends</h1>
       
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex space-x-4 mb-6">
-          <button
-            onClick={() => setActiveTab('public')}
-            className={`px-4 py-2 rounded-lg ${
-              activeTab === 'public'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-          >
-            Public Data
-          </button>
-          <button
-            onClick={() => setActiveTab('premium')}
-            className={`px-4 py-2 rounded-lg ${
-              activeTab === 'premium'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-          >
-            Premium Insights
-          </button>
-        </div>
-
-        {activeTab === 'premium' && !isConnected && (
-          <div className="text-center py-10">
-            <p className="text-gray-600">
-              Connect your wallet to access premium insights
-            </p>
+      {isConnected ? (
+        <div>
+          <p className="mb-4">Your staked balance: {balance?.toString() || '0'}</p>
+          <div className="flex space-x-4 mb-4">
+            <button
+              onClick={() => setActiveTab('public')}
+              className={`px-4 py-2 rounded ${
+                activeTab === 'public' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              }`}
+            >
+              Public
+            </button>
+            <button
+              onClick={() => setActiveTab('private')}
+              className={`px-4 py-2 rounded ${
+                activeTab === 'private' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              }`}
+            >
+              Private
+            </button>
           </div>
-        )}
-
-        {/* Add trend charts and data here */}
-      </div>
+          {/* Add trend content here */}
+        </div>
+      ) : (
+        <p>Please connect your wallet to view trends</p>
+      )}
     </div>
   )
 }
