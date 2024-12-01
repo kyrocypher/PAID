@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-export default function Sidebar(): JSX.Element {  // Added return type
+export default function Sidebar(): JSX.Element {
   const router = useRouter()
   
   const links = [
