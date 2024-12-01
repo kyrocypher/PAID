@@ -3,84 +3,38 @@ import { useAccount } from 'wagmi'
 import { useStakedBalance } from '@/hooks/useStakedBalance'
 
 export default function Staking() {
-  const { isConnected } = useAccount()
-  const { stakedBalance } = useStakedBalance()
+  const { address, isConnected } = useAccount()
+  const balance = useStakedBalance(address)  // useStakedBalance returns bigint | undefined
   const [stakeAmount, setStakeAmount] = useState('')
 
   const handleStake = async () => {
-    // Implement staking logic
-  }
-
-  const handleUnstake = async () => {
-    // Implement unstaking logic
+    if (!isConnected || !stakeAmount) return
+    // Add staking logic here
   }
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Staking</h1>
-
-      {!isConnected ? (
-        <div className="bg-white rounded-lg shadow p-6 text-center">
-          <p className="text-gray-600">Connect your wallet to start staking</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Staking</h1>
+      
+      {isConnected ? (
+        <div>
+          <p className="mb-4">Your staked balance: {balance?.toString() || '0'}</p>
+          <input
+            type="text"
+            value={stakeAmount}
+            onChange={(e) => setStakeAmount(e.target.value)}
+            className="border rounded p-2 mr-4"
+            placeholder="Amount to stake"
+          />
+          <button
+            onClick={handleStake}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Stake
+          </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">Your Staking</h2>
-            <div className="mb-4">
-              <p className="text-gray-600">Staked Balance</p>
-              <p className="text-2xl font-bold">{stakedBalance} $PAID</p>
-            </div>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Amount to Stake
-                </label>
-                <input
-                  type="number"
-                  value={stakeAmount}
-                  onChange={(e) => setStakeAmount(e.target.value)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="0.0"
-                />
-              </div>
-              
-              <div className="flex space-x-4">
-                <button
-                  onClick={handleStake}
-                  className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                >
-                  Stake
-                </button>
-                <button
-                  onClick={handleUnstake}
-                  className="flex-1 bg-gray-100 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-200"
-                >
-                  Unstake
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">Staking Stats</h2>
-            <div className="space-y-4">
-              <div>
-                <p className="text-gray-600">APY</p>
-                <p className="text-2xl font-bold">12.5%</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Total Value Locked</p>
-                <p className="text-2xl font-bold">1,234,567 $PAID</p>
-              </div>
-              <div>
-                <p className="text-gray-600">Your Share</p>
-                <p className="text-2xl font-bold">0.05%</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p>Please connect your wallet to stake</p>
       )}
     </div>
   )
